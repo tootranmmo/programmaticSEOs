@@ -19,7 +19,7 @@ class PSEO_Activator {
 
         // Table for templates
         $table_templates = $wpdb->prefix . 'pseo_templates';
-        $sql_templates = "CREATE TABLE IF NOT EXISTS $table_templates (
+        $sql_templates = "CREATE TABLE $table_templates (
             id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
             description text,
@@ -32,12 +32,14 @@ class PSEO_Activator {
             variables text,
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
             updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            KEY name (name),
+            KEY status (status)
         ) $charset_collate;";
 
         // Table for data sources
         $table_data_sources = $wpdb->prefix . 'pseo_data_sources';
-        $sql_data_sources = "CREATE TABLE IF NOT EXISTS $table_data_sources (
+        $sql_data_sources = "CREATE TABLE $table_data_sources (
             id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
             file_name varchar(255),
@@ -47,12 +49,13 @@ class PSEO_Activator {
             columns text,
             status varchar(20) DEFAULT 'active',
             created_at datetime DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
+            PRIMARY KEY (id),
+            KEY name (name)
         ) $charset_collate;";
 
         // Table for generated pages
         $table_generated_pages = $wpdb->prefix . 'pseo_generated_pages';
-        $sql_generated_pages = "CREATE TABLE IF NOT EXISTS $table_generated_pages (
+        $sql_generated_pages = "CREATE TABLE $table_generated_pages (
             id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             post_id bigint(20) UNSIGNED NOT NULL,
             template_id bigint(20) UNSIGNED NOT NULL,
@@ -70,6 +73,9 @@ class PSEO_Activator {
         dbDelta($sql_templates);
         dbDelta($sql_data_sources);
         dbDelta($sql_generated_pages);
+
+        // Migration: Add missing columns to existing tables
+        self::migrate_database();
 
         // Create upload directory
         $upload_dir = wp_upload_dir();
@@ -90,5 +96,45 @@ class PSEO_Activator {
 
         // Flush rewrite rules
         flush_rewrite_rules();
+    }
+
+    /**
+     * Migrate database - Add missing columns to existing tables
+     */
+    private static function migrate_database() {
+        global $wpdb;
+        $table_templates = $wpdb->prefix . 'pseo_templates';
+
+        // Check if table exists
+        $table_exists = $wpdb->get_var("SHOW TABLES LIKE '$table_templates'");
+
+        if ($table_exists) {
+            // Check and add missing columns
+            $columns = $wpdb->get_col("DESCRIBE $table_templates", 0);
+
+            // Add description column if missing
+            if (!in_array('description', $columns)) {
+                $wpdb->query("ALTER TABLE $table_templates ADD COLUMN description text AFTER name");
+                error_log('PSEO: Added description column to templates table');
+            }
+
+            // Add updated_at column if missing
+            if (!in_array('updated_at', $columns)) {
+                $wpdb->query("ALTER TABLE $table_templates ADD COLUMN updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER created_at");
+                error_log('PSEO: Added updated_at column to templates table');
+            }
+
+            // Add slug_pattern column if missing
+            if (!in_array('slug_pattern', $columns)) {
+                $wpdb->query("ALTER TABLE $table_templates ADD COLUMN slug_pattern varchar(255) AFTER meta_description_template");
+                error_log('PSEO: Added slug_pattern column to templates table');
+            }
+
+            // Add variables column if missing
+            if (!in_array('variables', $columns)) {
+                $wpdb->query("ALTER TABLE $table_templates ADD COLUMN variables text AFTER status");
+                error_log('PSEO: Added variables column to templates table');
+            }
+        }
     }
 }
