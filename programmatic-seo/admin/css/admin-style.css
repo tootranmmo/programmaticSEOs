@@ -1,0 +1,342 @@
+/**
+ * Programmatic SEO - Admin Styles
+ */
+
+/* General Admin Styles */
+.pseo-admin {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.pseo-admin .container-fluid {
+    max-width: 1400px;
+}
+
+/* Cards */
+.pseo-admin .card {
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.pseo-admin .card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.pseo-admin .card-header {
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+}
+
+/* Buttons */
+.pseo-admin .btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1.25rem;
+}
+
+.pseo-admin .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.pseo-admin .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+}
+
+.pseo-admin .btn i {
+    margin-right: 5px;
+}
+
+/* Stat Icons */
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Tables */
+.pseo-admin .table {
+    font-size: 0.9rem;
+}
+
+.pseo-admin .table thead th {
+    border-bottom: 2px solid #dee2e6;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    color: #495057;
+}
+
+.pseo-admin .table td {
+    vertical-align: middle;
+}
+
+.pseo-admin .table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Badges */
+.pseo-admin .badge {
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.pseo-admin .badge-lg {
+    font-size: 1.5rem;
+    padding: 0.75rem 1.5rem;
+}
+
+/* Forms */
+.pseo-admin .form-control,
+.pseo-admin .form-select {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.95rem;
+}
+
+.pseo-admin .form-control:focus,
+.pseo-admin .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.pseo-admin .form-control-lg {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+}
+
+.pseo-admin label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.pseo-admin label i {
+    margin-right: 5px;
+    color: #667eea;
+}
+
+/* Alerts */
+.pseo-admin .alert {
+    border-radius: 6px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pseo-admin .alert i {
+    margin-right: 8px;
+}
+
+/* Modals */
+.pseo-admin .modal-content {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.pseo-admin .modal-header {
+    border-radius: 8px 8px 0 0;
+    border-bottom: none;
+}
+
+.pseo-admin .modal-footer {
+    border-top: 1px solid #dee2e6;
+    padding: 1rem 1.25rem;
+}
+
+/* Progress Bar */
+.pseo-admin .progress {
+    height: 30px;
+    border-radius: 15px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pseo-admin .progress-bar {
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+/* Code blocks */
+.pseo-admin pre {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.pseo-admin code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    color: #e83e8c;
+}
+
+.pseo-admin pre code {
+    background: transparent;
+    padding: 0;
+    color: #212529;
+}
+
+/* Custom file input */
+.pseo-admin .custom-file-label {
+    border-radius: 6px;
+    padding: 0.625rem 0.875rem;
+}
+
+.pseo-admin .custom-file-label::after {
+    border-radius: 0 6px 6px 0;
+}
+
+/* Gradients */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-success {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+}
+
+.bg-gradient-info {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.pseo-admin .card,
+.pseo-admin .alert {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .pseo-admin .card-body {
+        padding: 1rem;
+    }
+
+    .pseo-admin .table {
+        font-size: 0.85rem;
+    }
+
+    .pseo-admin .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* WordPress admin overrides */
+.pseo-admin .notice {
+    margin: 15px 0;
+}
+
+.pseo-admin .wp-heading-inline {
+    font-size: 23px;
+    font-weight: 400;
+    margin: 0;
+    padding: 9px 0 4px;
+    line-height: 1.3;
+}
+
+.pseo-admin .wp-heading-inline i {
+    color: #667eea;
+    margin-right: 8px;
+}
+
+/* Loading states */
+.pseo-admin .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.pseo-admin .fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Empty states */
+.pseo-admin .text-muted {
+    color: #6c757d !important;
+}
+
+/* Utilities */
+.pseo-admin .shadow-sm {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.pseo-admin .border-0 {
+    border: 0 !important;
+}
+
+/* Internal links styling */
+.pseo-internal-links {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    border-radius: 4px;
+}
+
+.pseo-internal-links h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.pseo-internal-links ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.pseo-internal-links li {
+    margin-bottom: 10px;
+}
+
+.pseo-internal-links a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.pseo-internal-links a:hover {
+    color: #0056b3;
+    padding-left: 5px;
+}
+
+.pseo-internal-links i {
+    margin-right: 8px;
+}
