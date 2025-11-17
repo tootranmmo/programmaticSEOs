@@ -59,17 +59,25 @@ class PSEO_Template {
             }
         }
 
+        // Sanitize template fields while preserving {{variables}}
+        $title_template = $this->sanitize_template($data['title_template']);
+        $content_template = $this->sanitize_template($data['content_template']);
+        $meta_description = sanitize_textarea_field($data['meta_description_template'] ?? '');
+
         $template_data = array(
             'name' => sanitize_text_field($data['name']),
             'description' => sanitize_textarea_field($data['description'] ?? ''),
-            'title_template' => wp_kses_post($data['title_template']), // Allow HTML entities
-            'content_template' => wp_kses_post($data['content_template']),
-            'meta_description_template' => sanitize_textarea_field($data['meta_description_template'] ?? ''),
+            'title_template' => $title_template,
+            'content_template' => $content_template,
+            'meta_description_template' => $meta_description,
             'slug_pattern' => $slug_pattern,
             'post_type' => sanitize_text_field($data['post_type'] ?? 'page'),
             'status' => sanitize_text_field($data['status'] ?? 'active'),
             'variables' => sanitize_text_field($data['variables'] ?? '')
         );
+
+        // Debug log
+        error_log('PSEO: Template data prepared: ' . print_r(array_keys($template_data), true));
 
         if (isset($data['template_id']) && $data['template_id']) {
             // Update existing template
@@ -176,6 +184,31 @@ class PSEO_Template {
         $data['name'] = $data['name'] . ' (Imported)';
 
         return $this->save($data);
+    }
+
+    /**
+     * Sanitize template content while preserving {{variables}}
+     */
+    private function sanitize_template($template) {
+        // Temporarily replace {{variables}} with placeholders
+        preg_match_all('/\{\{([^}]+)\}\}/', $template, $matches);
+        $placeholders = array();
+
+        foreach ($matches[0] as $i => $match) {
+            $placeholder = '___TEMPLATEVAR' . $i . '___';
+            $placeholders[$placeholder] = $match;
+            $template = str_replace($match, $placeholder, $template);
+        }
+
+        // Sanitize HTML content
+        $template = wp_kses_post($template);
+
+        // Restore variables
+        foreach ($placeholders as $placeholder => $original) {
+            $template = str_replace($placeholder, $original, $template);
+        }
+
+        return $template;
     }
 
     /**

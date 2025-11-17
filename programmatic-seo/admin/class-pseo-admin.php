@@ -207,13 +207,25 @@ class PSEO_Admin {
             wp_send_json_error('Unauthorized');
         }
 
+        // Debug: Log incoming data
+        error_log('PSEO: Attempting to save template. Data: ' . print_r($_POST, true));
+
         $template = new PSEO_Template();
         $result = $template->save($_POST);
 
         if ($result) {
-            wp_send_json_success(array('message' => 'Template saved successfully'));
+            wp_send_json_success(array(
+                'message' => 'Template saved successfully',
+                'template_id' => $result
+            ));
         } else {
-            wp_send_json_error('Failed to save template');
+            global $wpdb;
+            $error_msg = 'Failed to save template';
+            if ($wpdb->last_error) {
+                $error_msg .= ': ' . $wpdb->last_error;
+            }
+            error_log('PSEO: Save failed - ' . $error_msg);
+            wp_send_json_error($error_msg);
         }
     }
 
