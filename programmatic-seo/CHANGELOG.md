@@ -4,6 +4,60 @@ All notable changes to Programmatic SEO WordPress Plugin will be documented in t
 
 ---
 
+## [1.0.2] - 2025-01-17
+
+### 🐛 Critical Bug Fixes
+
+**Database Migration Issues**
+- **FIXED**: "Unknown column 'description'" error on save
+- **CAUSE**: Old plugin installations missing new schema columns
+- **SOLUTION**: Auto-migration script in activator
+
+**Template Sanitization**
+- **FIXED**: `wp_kses_post()` stripping `{{variables}}` from templates
+- **CAUSE**: WordPress thought `{{}}` were invalid HTML tags
+- **SOLUTION**: Smart sanitization with placeholder technique
+
+### ✨ New Features
+
+#### Database Auto-Migration
+- Automatically updates old database schemas
+- Adds missing columns on reactivation
+- Safe to run multiple times
+- Logs all migrations for debugging
+
+#### Enhanced Error Handling
+- Detailed error messages from database
+- Error logging for all operations
+- Debug mode for troubleshooting
+- User-friendly error display
+
+### 🔧 Technical Improvements
+
+- **Migration Script**: `migrate_database()` method
+- **Column Checks**: Validates existing columns before ALTER
+- **Smart Sanitization**: `sanitize_template()` preserves variables
+- **Error Logging**: Comprehensive logging system
+- **Database Indexes**: Added for performance
+
+### 📚 Documentation
+
+- **DATABASE-UPDATE.md**: Migration guide for users
+- **Error Messages**: More descriptive and helpful
+- **Logging**: Better debug information
+
+### 🔄 Migration Guide
+
+**For users with "Unknown column" error:**
+1. Deactivate plugin
+2. Reactivate plugin
+3. Migration runs automatically
+4. Templates now save correctly
+
+**Note:** Your data is safe - migration only adds columns!
+
+---
+
 ## [1.0.1] - 2025-01-17
 
 ### 🐛 Bug Fixes
