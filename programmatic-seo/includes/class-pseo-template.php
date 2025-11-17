@@ -34,13 +34,38 @@ class PSEO_Template {
         global $wpdb;
         $table = $wpdb->prefix . 'pseo_templates';
 
+        // Validate required fields
+        if (empty($data['name']) || empty($data['title_template']) || empty($data['content_template'])) {
+            return false;
+        }
+
+        // Sanitize slug pattern without removing {{}} variables
+        $slug_pattern = '';
+        if (!empty($data['slug_pattern'])) {
+            // Temporarily replace {{variables}} with placeholders
+            $slug_pattern = $data['slug_pattern'];
+            preg_match_all('/\{\{([^}]+)\}\}/', $slug_pattern, $matches);
+            $placeholders = array();
+            foreach ($matches[0] as $i => $match) {
+                $placeholder = '___VAR' . $i . '___';
+                $placeholders[$placeholder] = $match;
+                $slug_pattern = str_replace($match, $placeholder, $slug_pattern);
+            }
+            // Sanitize the rest
+            $slug_pattern = sanitize_title($slug_pattern);
+            // Restore variables
+            foreach ($placeholders as $placeholder => $original) {
+                $slug_pattern = str_replace(strtolower($placeholder), $original, $slug_pattern);
+            }
+        }
+
         $template_data = array(
             'name' => sanitize_text_field($data['name']),
             'description' => sanitize_textarea_field($data['description'] ?? ''),
-            'title_template' => sanitize_text_field($data['title_template']),
+            'title_template' => wp_kses_post($data['title_template']), // Allow HTML entities
             'content_template' => wp_kses_post($data['content_template']),
             'meta_description_template' => sanitize_textarea_field($data['meta_description_template'] ?? ''),
-            'slug_pattern' => sanitize_title($data['slug_pattern'] ?? ''),
+            'slug_pattern' => $slug_pattern,
             'post_type' => sanitize_text_field($data['post_type'] ?? 'page'),
             'status' => sanitize_text_field($data['status'] ?? 'active'),
             'variables' => sanitize_text_field($data['variables'] ?? '')
@@ -48,17 +73,109 @@ class PSEO_Template {
 
         if (isset($data['template_id']) && $data['template_id']) {
             // Update existing template
-            $wpdb->update(
+            $result = $wpdb->update(
                 $table,
                 $template_data,
                 array('id' => intval($data['template_id']))
             );
+
+            // Check for errors
+            if ($result === false) {
+                error_log('PSEO Template Update Error: ' . $wpdb->last_error);
+                return false;
+            }
+
             return intval($data['template_id']);
         } else {
             // Insert new template
-            $wpdb->insert($table, $template_data);
+            $result = $wpdb->insert($table, $template_data);
+
+            // Check for errors
+            if ($result === false) {
+                error_log('PSEO Template Insert Error: ' . $wpdb->last_error);
+                return false;
+            }
+
             return $wpdb->insert_id;
         }
+    }
+
+    /**
+     * Duplicate template
+     */
+    public function duplicate($id) {
+        $template = $this->get($id);
+
+        if (!$template) {
+            return false;
+        }
+
+        global $wpdb;
+        $table = $wpdb->prefix . 'pseo_templates';
+
+        $template_data = array(
+            'name' => $template->name . ' (Copy)',
+            'description' => $template->description,
+            'title_template' => $template->title_template,
+            'content_template' => $template->content_template,
+            'meta_description_template' => $template->meta_description_template,
+            'slug_pattern' => $template->slug_pattern,
+            'post_type' => $template->post_type,
+            'status' => 'inactive', // Set as inactive by default
+            'variables' => $template->variables
+        );
+
+        $wpdb->insert($table, $template_data);
+        return $wpdb->insert_id;
+    }
+
+    /**
+     * Export template to JSON
+     */
+    public function export($id) {
+        $template = $this->get($id);
+
+        if (!$template) {
+            return false;
+        }
+
+        // Remove ID and timestamps for portability
+        $export_data = array(
+            'name' => $template->name,
+            'description' => $template->description,
+            'title_template' => $template->title_template,
+            'content_template' => $template->content_template,
+            'meta_description_template' => $template->meta_description_template,
+            'slug_pattern' => $template->slug_pattern,
+            'post_type' => $template->post_type,
+            'variables' => $template->variables,
+            'status' => $template->status,
+            'exported_at' => current_time('mysql'),
+            'plugin_version' => PSEO_VERSION
+        );
+
+        return json_encode($export_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Import template from JSON
+     */
+    public function import($json_string) {
+        $data = json_decode($json_string, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
+
+        // Validate required fields
+        if (empty($data['name']) || empty($data['title_template']) || empty($data['content_template'])) {
+            return false;
+        }
+
+        // Add " (Imported)" to name to avoid duplicates
+        $data['name'] = $data['name'] . ' (Imported)';
+
+        return $this->save($data);
     }
 
     /**

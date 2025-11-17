@@ -320,4 +320,114 @@ class PSEO_Admin {
 
         wp_send_json_success($stats);
     }
+
+    /**
+     * AJAX: Duplicate template
+     */
+    public function ajax_duplicate_template() {
+        check_ajax_referer('pseo_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+
+        $template_id = intval($_POST['template_id']);
+        $template = new PSEO_Template();
+        $new_id = $template->duplicate($template_id);
+
+        if ($new_id) {
+            wp_send_json_success(array(
+                'message' => 'Template duplicated successfully',
+                'new_id' => $new_id
+            ));
+        } else {
+            wp_send_json_error('Failed to duplicate template');
+        }
+    }
+
+    /**
+     * AJAX: Export template
+     */
+    public function ajax_export_template() {
+        check_ajax_referer('pseo_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+
+        $template_id = intval($_POST['template_id']);
+        $template_obj = new PSEO_Template();
+        $json = $template_obj->export($template_id);
+
+        if ($json) {
+            wp_send_json_success(array(
+                'json' => $json,
+                'filename' => 'template-' . $template_id . '.json'
+            ));
+        } else {
+            wp_send_json_error('Failed to export template');
+        }
+    }
+
+    /**
+     * AJAX: Import template
+     */
+    public function ajax_import_template() {
+        check_ajax_referer('pseo_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+
+        $json = stripslashes($_POST['json']);
+        $template = new PSEO_Template();
+        $result = $template->import($json);
+
+        if ($result) {
+            wp_send_json_success(array(
+                'message' => 'Template imported successfully',
+                'template_id' => $result
+            ));
+        } else {
+            wp_send_json_error('Failed to import template. Check JSON format.');
+        }
+    }
+
+    /**
+     * AJAX: Preview template
+     */
+    public function ajax_preview_template() {
+        check_ajax_referer('pseo_nonce', 'nonce');
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('Unauthorized');
+        }
+
+        $template_obj = new PSEO_Template();
+
+        // Sample data for preview
+        $sample_data = array(
+            'city' => 'Hà Nội',
+            'service' => 'Web Development',
+            'price' => '5,000,000',
+            'description' => 'Thiết kế website chuyên nghiệp',
+            'product_name' => 'Laptop Dell XPS 13',
+            'category' => 'Laptop',
+            'brand' => 'Dell',
+            'topic' => 'Học WordPress',
+            'destination' => 'Đà Lạt'
+        );
+
+        $title = $template_obj->render($_POST['title_template'], $sample_data);
+        $content = $template_obj->render($_POST['content_template'], $sample_data);
+        $meta = $template_obj->render($_POST['meta_description'] ?? '', $sample_data);
+        $slug = $template_obj->render($_POST['slug_pattern'] ?? '', $sample_data);
+
+        wp_send_json_success(array(
+            'title' => $title,
+            'content' => $content,
+            'meta_description' => $meta,
+            'slug' => sanitize_title($slug)
+        ));
+    }
 }

@@ -57,6 +57,10 @@ class PSEO_Core {
         add_action('wp_ajax_pseo_get_template', array($admin, 'ajax_get_template'));
         add_action('wp_ajax_pseo_save_template', array($admin, 'ajax_save_template'));
         add_action('wp_ajax_pseo_delete_template', array($admin, 'ajax_delete_template'));
+        add_action('wp_ajax_pseo_duplicate_template', array($admin, 'ajax_duplicate_template'));
+        add_action('wp_ajax_pseo_export_template', array($admin, 'ajax_export_template'));
+        add_action('wp_ajax_pseo_import_template', array($admin, 'ajax_import_template'));
+        add_action('wp_ajax_pseo_preview_template', array($admin, 'ajax_preview_template'));
         add_action('wp_ajax_pseo_import_data', array($admin, 'ajax_import_data'));
         add_action('wp_ajax_pseo_generate_pages', array($admin, 'ajax_generate_pages'));
         add_action('wp_ajax_pseo_get_analytics', array($admin, 'ajax_get_analytics'));
