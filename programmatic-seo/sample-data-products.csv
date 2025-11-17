@@ -1,0 +1,11 @@
+product_name,product_slug,category,price,sku,description,feature_1,feature_2,feature_3,brand,origin,warranty
+Laptop Dell XPS 13,laptop-dell-xps-13,Laptop,25990000,LT-DELL-XPS13,Laptop cao cấp siêu mỏng nhẹ với hiệu năng mạnh mẽ,Màn hình InfinityEdge 13.4 inch,CPU Intel Core i7 thế hệ 12,RAM 16GB LPDDR5,Dell,Mỹ,24 tháng
+iPhone 14 Pro Max,iphone-14-pro-max,Điện thoại,29990000,IP-14-PROMAX,Điện thoại cao cấp với camera 48MP và chip A16 Bionic,Camera 48MP ProRAW,Chip A16 Bionic siêu mạnh,Màn hình Dynamic Island,Apple,Mỹ,12 tháng
+MacBook Air M2,macbook-air-m2,Laptop,32990000,MB-AIR-M2,Laptop siêu mỏng nhẹ với chip M2 hiệu năng cao,Chip Apple M2 8 nhân,Màn hình Liquid Retina 13.6 inch,Pin 18 giờ sử dụng,Apple,Mỹ,12 tháng
+Samsung Galaxy S23 Ultra,samsung-galaxy-s23-ultra,Điện thoại,31990000,SS-S23-ULTRA,Flagship Android với camera 200MP và S Pen,Camera 200MP siêu phân giải,S Pen tích hợp sẵn,Màn hình Dynamic AMOLED 2X,Samsung,Hàn Quốc,12 tháng
+iPad Pro M2 11 inch,ipad-pro-m2-11,Máy tính bảng,22990000,IPD-PRO-M2-11,Máy tính bảng chuyên nghiệp với chip M2,Chip Apple M2,Hỗ trợ Apple Pencil gen 2,Face ID tiên tiến,Apple,Mỹ,12 tháng
+Sony WH-1000XM5,sony-wh-1000xm5,Tai nghe,8990000,SN-WH1000XM5,Tai nghe chống ồn tốt nhất thế giới,Chống ồn hàng đầu ANC,Pin 30 giờ sử dụng,Âm thanh Hi-Res,Sony,Nhật Bản,12 tháng
+Canon EOS R6 Mark II,canon-eos-r6-mark2,Máy ảnh,65990000,CN-R6M2,Máy ảnh mirrorless full-frame chuyên nghiệp,Cảm biến Full-frame 24.2MP,Chống rung IBIS 8 stop,Quay video 4K 60fps,Canon,Nhật Bản,24 tháng
+LG OLED C3 55 inch,lg-oled-c3-55,Tivi,35990000,LG-C3-55,Smart TV OLED 4K cao cấp với AI ThinQ,Màn hình OLED tự phát sáng,Chip α9 Gen6 AI,WebOS 23 thông minh,LG,Hàn Quốc,24 tháng
+Dyson V15 Detect,dyson-v15-detect,Máy hút bụi,18990000,DY-V15DT,Máy hút bụi không dây công nghệ laser,Công nghệ laser phát hiện bụi,Lực hút 240W mạnh mẽ,Lọc HEPA 99.99%,Dyson,Anh,24 tháng
+PlayStation 5,playstation-5,Game console,13990000,PS5-DISC,Máy chơi game thế hệ mới với đồ họa 4K,GPU tùy chỉnh AMD,SSD siêu tốc 825GB,Hỗ trợ ray tracing,Sony,Nhật Bản,12 tháng
