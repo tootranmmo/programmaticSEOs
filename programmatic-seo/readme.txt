@@ -4,7 +4,7 @@ Tags: seo, programmatic, bulk pages, automation, template
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,22 @@ Không. Dữ liệu chỉ được xóa khi bạn uninstall plugin.
 
 == Changelog ==
 
+= 1.0.2 =
+* Critical bug fixes: Database migration and template sanitization
+* Auto-migration script for database schema updates
+* Enhanced error handling with detailed logging
+* Fixed "Unknown column" errors
+* Fixed {{variables}} stripping from templates
+* Improved database compatibility
+
+= 1.0.1 =
+* Template preview with sample data
+* Template duplicate feature
+* Template export/import as JSON
+* Auto-extract variables from templates
+* Enhanced UI/UX improvements
+* Smart slug sanitization
+
 = 1.0.0 =
 * Phiên bản đầu tiên
 * Template management với biến động
@@ -91,6 +107,12 @@ Không. Dữ liệu chỉ được xóa khi bạn uninstall plugin.
 * Bootstrap 4 UI
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Important: Contains critical bug fixes for database migration and template handling. If you encounter "Unknown column" errors, update to 1.0.2 and reactivate the plugin.
+
+= 1.0.1 =
+New features: Template preview, duplicate, and export/import functionality.
 
 = 1.0.0 =
 Phiên bản đầu tiên của plugin.
